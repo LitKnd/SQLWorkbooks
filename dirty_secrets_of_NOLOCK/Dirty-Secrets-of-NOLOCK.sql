@@ -3,6 +3,8 @@ Copyright (c) 2020 Kendra Little
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 http://creativecommons.org/licenses/by-nc-sa/4.0/
 
+This script is from the online course https://littlekendra.com/course/the-dirty-secrets-of-nolock/
+
 Setup:
     Download BabbyNames.bak.zip (43 MB database backup)
     https://github.com/LitKnd/BabbyNames/releases/tag/v1.1
