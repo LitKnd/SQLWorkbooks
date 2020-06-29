@@ -3,18 +3,15 @@ Copyright (c) 2020 Kendra Little
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 http://creativecommons.org/licenses/by-nc-sa/4.0/
 
-This script is from the online course https://littlekendra.com/course/who-made-that-schema-change-a-ddl-trigger-sqlchallenge/
-
-SQLChallenges are suitable to be run ONLY on private test instances
-
+This script is from the online course https://littlekendra.com/course/who-made-that-schema-change-an-event-notification-sqlchallenge/
 SETUP FILE
 	
 This script creates two databases:
-    * SQLChallengeDDLTriggerWatcher
+    * SQLChallengeEventNotificationWatcher
         This database has one table, dbo.DDLWatcher
-    * SQLChallengeDDLTrigger
+    * SQLChallengeEventNotification
 
-The script also creates a user named [stormy] in the SQLChallengeDDLTrigger database
+The script also creates a user named [stormy] in the SQLChallengeEventNotification database
     * This user only has permission in this database
     * It has no login, which is weird (and you don't have to create one) 
         stormy will only be used for testing in the challenge
@@ -22,25 +19,32 @@ The script also creates a user named [stormy] in the SQLChallengeDDLTrigger data
 
 *****************************************************************************/
 
-
 USE master;
 GO
 
-DROP TRIGGER IF EXISTS DDLWatcher
-ON ALL SERVER;
+IF
+(
+    SELECT COUNT(*)
+    FROM sys.server_event_notifications
+    WHERE name = 'DDLWatcherEN'
+) > 0
+BEGIN
+    DROP EVENT NOTIFICATION DDLWatcherEN
+    ON SERVER;
+END;
 GO
 
-IF DB_ID('SQLChallengeDDLTriggerWatcher') IS NOT NULL
+IF DB_ID('SQLChallengeEventNotificationWatcher') IS NOT NULL
 BEGIN
-    ALTER DATABASE SQLChallengeDDLTriggerWatcher
+    ALTER DATABASE SQLChallengeEventNotificationWatcher
     SET SINGLE_USER
     WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE SQLChallengeDDLTriggerWatcher;
+    DROP DATABASE SQLChallengeEventNotificationWatcher;
 END;
 
-CREATE DATABASE SQLChallengeDDLTriggerWatcher;
+CREATE DATABASE SQLChallengeEventNotificationWatcher;
 GO
-USE SQLChallengeDDLTriggerWatcher;
+USE SQLChallengeEventNotificationWatcher;
 GO
 
 CREATE TABLE dbo.DDLWatcher
@@ -66,19 +70,19 @@ USE master;
 GO
 
 
-IF DB_ID('SQLChallengeDDLTrigger') IS NOT NULL
+IF DB_ID('SQLChallengeEventNotification') IS NOT NULL
 BEGIN
-    ALTER DATABASE SQLChallengeDDLTrigger
+    ALTER DATABASE SQLChallengeEventNotification
     SET SINGLE_USER
     WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE SQLChallengeDDLTrigger;
+    DROP DATABASE SQLChallengeEventNotification;
 END;
 
-CREATE DATABASE SQLChallengeDDLTrigger;
+CREATE DATABASE SQLChallengeEventNotification;
 GO
 
 --This user is being created for testing only
-USE SQLChallengeDDLTrigger;
+USE SQLChallengeEventNotification;
 GO
 CREATE USER [stormy] WITHOUT LOGIN;
 GO
