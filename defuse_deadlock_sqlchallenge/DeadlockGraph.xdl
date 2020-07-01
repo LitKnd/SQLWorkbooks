@@ -1,0 +1,51 @@
+<deadlock>
+ <victim-list>
+  <victimProcess id="process173be629088" />
+ </victim-list>
+ <process-list>
+  <process id="process173be629088" taskpriority="0" logused="0" waitresource="KEY: 6:72057594039631872 (59855d342c69)" waittime="6510" ownerId="770310" transactionname="SELECT" lasttranstarted="2018-02-16T13:01:42.280" XDES="0x173b5aa24d0" lockMode="S" schedulerid="3" kpid="6696" status="suspended" spid="58" sbid="0" ecid="5" priority="0" trancount="0" lastbatchstarted="2018-02-16T13:01:42.280" lastbatchcompleted="2018-02-16T13:01:42.280" lastattention="1900-01-01T00:00:00.280" clientapp="Microsoft SQL Server Management Studio - Query" hostname="BEEPBEEP" hostpid="2936" isolationlevel="read committed (2)" xactid="770310" currentdb="6" lockTimeout="4294967295" clientoption1="671090784" clientoption2="390200">
+   <executionStack>
+    <frame procname="adhoc" line="1" stmtend="270" sqlhandle="0x02000000ce09851f8a3ef7d4b83d9a430b3cccd568b111380000000000000000000000000000000000000000">
+unknown    </frame>
+   </executionStack>
+   <inputbuf>
+SELECT 
+    COUNT(*) as OrderCount, 
+    SUM(Amount) as TotalAmount
+FROM dbo.V_CustomerOrders
+WHERE ProductSubcategory like N'Cell%';
+   </inputbuf>
+  </process>
+  <process id="process173a45ca108" taskpriority="0" logused="292" waitresource="KEY: 6:72057594039369728 (90d9aa6f10be)" waittime="2482" ownerId="770290" transactionname="user_transaction" lasttranstarted="2018-02-16T13:01:40.677" XDES="0x173c278c490" lockMode="X" schedulerid="2" kpid="6068" status="suspended" spid="55" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2018-02-16T13:01:46.300" lastbatchcompleted="2018-02-16T13:01:46.300" lastattention="1900-01-01T00:00:00.300" clientapp="Microsoft SQL Server Management Studio - Query" hostname="BEEPBEEP" hostpid="2936" loginname="BEEPBEEP\Kendar" isolationlevel="read committed (2)" xactid="770290" currentdb="6" lockTimeout="4294967295" clientoption1="671221856" clientoption2="390200">
+   <executionStack>
+    <frame procname="adhoc" line="1" stmtstart="74" stmtend="282" sqlhandle="0x0200000068c15e35aeb2f07b4cd113999ec8892e0f29545b0000000000000000000000000000000000000000">
+unknown    </frame>
+    <frame procname="adhoc" line="1" stmtstart="8" stmtend="316" sqlhandle="0x0200000033e84a36077a8d57153c2a0246013a8a28e4c8b10000000000000000000000000000000000000000">
+unknown    </frame>
+   </executionStack>
+   <inputbuf>
+    UPDATE dbo.DimProductSubcategory
+    SET ProductSubcategoryName = N'Cellphones Accessories'
+    WHERE ProductSubcategoryName = N'Cell phones Accessories'
+ROLLBACK   </inputbuf>
+  </process>
+ </process-list>
+ <resource-list>
+  <keylock hobtid="72057594039631872" dbid="6" objectname="ContosoRetailDW.dbo.DimProductCategory" indexname="PK_DimProductCategory_ProductCategoryKey" id="lock17355ccdb80" mode="X" associatedObjectId="72057594039631872">
+   <owner-list>
+    <owner id="process173a45ca108" mode="X" />
+   </owner-list>
+   <waiter-list>
+    <waiter id="process173be629088" mode="S" requestType="wait" />
+   </waiter-list>
+  </keylock>
+  <keylock hobtid="72057594039369728" dbid="6" objectname="ContosoRetailDW.dbo.DimProductSubcategory" indexname="PK_DimProductSubcategory_ProductSubcategoryKey" id="lock173aa649180" mode="U" associatedObjectId="72057594039369728">
+   <owner-list>
+    <owner id="process173be629088" mode="S" />
+   </owner-list>
+   <waiter-list>
+    <waiter id="process173a45ca108" mode="X" requestType="convert" />
+   </waiter-list>
+  </keylock>
+ </resource-list>
+</deadlock>
